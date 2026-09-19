@@ -1,0 +1,46 @@
+.dashboard-page { max-width: 1500px; display: grid; gap: 24px; }
+.page-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 10px; }
+.page-heading h2 { margin: 0 0 7px; color: #102d44; font-family: 'Plus Jakarta Sans'; font-size: 32px; }
+.page-heading p:not(.eyebrow) { margin: 0; color: #5f7a8a; }
+.dashboard-error { padding: 18px 20px; background: #fdf2f2; border: 1px solid #f5c2c2; border-radius: 16px; color: #842029; }
+.dashboard-empty { padding: 32px; border: 1px solid #dde6ee; border-radius: 18px; background: #fbfdff; color: #4e6a80; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.dashboard-card { padding: 20px; border-radius: 20px; background: #ffffff; border: 1px solid #e5eff5; box-shadow: 0 12px 30px rgba(15, 39, 56, 0.06); }
+.dashboard-card.compact-card { padding: 16px 18px; }
+.dashboard-card-label { display: block; margin-bottom: 10px; color: #5e7a8f; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.dashboard-card strong { font-size: 1.75rem; color: #0f324a; }
+.dashboard-section { display: grid; gap: 16px; }
+.section-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.section-header h3 { margin: 0; color: #102d44; font-size: 22px; }
+.section-header p { margin: 4px 0 0; color: #5f7a8f; }
+.dashboard-table-card { overflow: hidden; border: 1px solid #dde6ef; border-radius: 20px; background: #ffffff; box-shadow: 0 12px 32px rgba(15, 39, 56, 0.06); }
+.table-scroll { overflow-x: auto; }
+.dashboard-splits { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+.chart-card { padding: 22px; }
+.chart-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.chart-card-header h3 { margin: 0; font-size: 18px; }
+.chart-card-header p { margin: 4px 0 0; color: #5f7a8f; font-size: 0.92rem; }
+.pie-chart-card { display: grid; grid-template-columns: 240px auto; gap: 18px; align-items: center; }
+.dashboard-pie { align-self: center; justify-self: center; }
+.chart-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.chart-legend li { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: #324558; }
+.legend-signal { width: 12px; height: 12px; border-radius: 999px; }
+.pivot-card { padding: 22px; }
+.pivot-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.pivot-table th, .pivot-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #e7f0f7; }
+.pivot-table th { color: #5f7a8f; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.pivot-table td { color: #213245; font-weight: 600; }
+.pivot-total-row td { border-top: 1px solid #d7e7f0; font-weight: 800; }
+.table-scroll table { width: 100%; border-collapse: collapse; min-width: 780px; }
+th, td { padding: 16px; text-align: left; border-bottom: 1px solid #edf2f5; font-size: 13px; }
+th { background: #f7fbff; color: #6b7d8f; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+tbody tr:hover { background: rgba(14, 165, 233, 0.06); }
+.status-pill { display: inline-flex; align-items: center; padding: 7px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.status-pill.completed { background: #e8f8f4; color: #157f59; }
+.status-pill.cancelled { background: #fde8f1; color: #b91c1c; }
+.dashboard-action { padding: 8px 12px; border-radius: 10px; border: 1px solid #d9e5ea; background: white; color: #256d75; cursor: pointer; font: inherit; font-size: 12px; }
+.dashboard-action:hover { background: #f8fafd; }
+.dashboard-table-empty { padding: 24px; color: #6a8290; }
+@media (max-width: 1200px) { .dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .dashboard-splits { grid-template-columns: 1fr; } }
+@media (max-width: 860px) { .dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 680px) { .dashboard-grid { grid-template-columns: 1fr; } .dashboard-splits { grid-template-columns: 1fr; } .page-heading { align-items: flex-start; flex-direction: column; } }

@@ -1,0 +1,43 @@
+.billing-page { max-width: 1500px; }
+.billing-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 25px; }
+.billing-heading h2 { margin: 0 0 7px; color: #12344d; font-family: 'Plus Jakarta Sans'; font-size: 30px; }
+.billing-heading p:not(.eyebrow) { margin: 0; color: #6a8290; }
+.pos-badge { padding: 8px 11px; border: 1px solid #d9e5ea; border-radius: 7px; color: #5c7b88; font-size: 11px; font-weight: 700; }
+.pos-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(390px, .75fr); gap: 24px; align-items: start; }
+.pos-search-panel, .cart-panel { min-width: 0; padding: 24px; border: 1px solid #e2ebf0; border-radius: 14px; background: white; box-shadow: 0 8px 24px #173b5608; }
+.cart-panel { position: sticky; top: 20px; }
+.pos-panel-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
+.pos-panel-heading h3 { margin: 0 0 5px; color: #183b56; font-family: 'Plus Jakarta Sans'; font-size: 17px; }
+.pos-panel-heading p { margin: 0; color: #78909b; font-size: 12px; }
+.pos-search-input { width: 100%; padding: 14px 16px; border: 1px solid #cfdee6; border-radius: 9px; color: #183b56; font: inherit; }
+.pos-search-input:focus, .customer-input-wrap input:focus { border-color: #24b69b; outline: 3px solid #24b69b1a; }
+.pos-status, .pos-error, .pos-info { margin: 12px 0 0; font-size: 13px; }
+.pos-status { color: #6a8290; }.pos-error { color: #c24d4d; }.pos-info { color: #168e78; }
+.pos-empty-search, .cart-empty { display: grid; place-items: center; gap: 7px; min-height: 180px; color: #6a8290; text-align: center; }
+.pos-empty-search strong, .cart-empty strong { color: #35576b; }.pos-empty-search span, .cart-empty span { font-size: 13px; }
+.medicine-result-list { display: grid; gap: 10px; margin-top: 18px; }
+.medicine-result { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 16px; align-items: center; padding: 15px; border: 1px solid #e4edf1; border-radius: 10px; }
+.medicine-result-main { display: grid; gap: 4px; min-width: 0; }.medicine-result-title { display: flex; align-items: center; gap: 8px; }.medicine-result-title strong { color: #183b56; }
+.medicine-result-main span, .medicine-result-main small, .medicine-result-meta small { color: #718894; font-size: 12px; }
+.medicine-result-meta { display: grid; gap: 3px; min-width: 90px; text-align: right; }.medicine-result-meta span { color: #8799a1; font-size: 11px; text-decoration: line-through; }.medicine-result-meta strong { color: #168e78; }
+.add-button { min-width: 64px; padding: 9px 11px; border: 0; border-radius: 7px; background: #168e78; color: white; cursor: pointer; font: inherit; font-size: 12px; font-weight: 700; }.add-button:disabled { cursor: not-allowed; opacity: .5; }
+.expired-pill { padding: 4px 6px; border-radius: 4px; background: #fff0ed; color: #be5656; font-size: 10px; font-weight: 700; }
+.clear-cart-button { padding: 7px 9px; border: 1px solid #e0e8ec; border-radius: 6px; background: white; color: #bd5858; cursor: pointer; font: inherit; font-size: 11px; font-weight: 600; }.clear-cart-button:disabled { cursor: not-allowed; opacity: .4; }
+.customer-selector { position: relative; margin-bottom: 19px; }.customer-selector label { display: block; margin-bottom: 7px; color: #35576b; font-size: 12px; font-weight: 700; }
+.customer-input-wrap { display: flex; gap: 6px; }.customer-input-wrap input { min-width: 0; flex: 1; padding: 10px 11px; border: 1px solid #cfdee6; border-radius: 8px; font: inherit; }.customer-input-wrap button { padding: 8px 10px; border: 1px solid #d9e5ea; border-radius: 7px; background: #f8fafb; color: #456576; cursor: pointer; font: inherit; font-size: 11px; }
+.customer-results { position: absolute; right: 0; left: 0; top: 68px; z-index: 3; display: grid; max-height: 230px; overflow-y: auto; padding: 5px; border: 1px solid #dfe9ed; border-radius: 8px; background: white; box-shadow: 0 10px 25px #173b5620; }
+.customer-results button { display: grid; gap: 3px; padding: 9px; border: 0; border-radius: 5px; background: white; color: #35576b; cursor: pointer; text-align: left; font: inherit; }.customer-results button:hover { background: #f0f8f6; }.customer-results button small, .customer-results > span { color: #78909b; font-size: 11px; }.selected-customer { display: block; margin-top: 6px; color: #168e78; font-size: 11px; }
+.cart-items { display: grid; gap: 10px; max-height: 380px; overflow-y: auto; }.cart-item { padding: 13px 0; border-top: 1px solid #edf2f5; }.cart-item-heading, .cart-item-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.cart-item-heading > div { display: grid; gap: 4px; min-width: 0; }.cart-item-heading strong { overflow: hidden; color: #183b56; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }.cart-item-heading small { color: #78909b; font-size: 11px; }.cart-item-heading button { border: 0; background: transparent; color: #bd5858; cursor: pointer; font: inherit; font-size: 11px; }
+.cart-item-bottom { margin-top: 10px; color: #6a8290; font-size: 12px; }.cart-item-bottom strong { color: #183b56; }.quantity-control { display: flex; align-items: center; gap: 9px; }.quantity-control button { width: 25px; height: 25px; border: 1px solid #d9e5ea; border-radius: 5px; background: white; color: #168e78; cursor: pointer; font-size: 16px; line-height: 1; }.quantity-control button:disabled { cursor: not-allowed; opacity: .35; }.quantity-control span { min-width: 13px; color: #183b56; text-align: center; font-weight: 700; }
+.discount-control { display: grid; gap: 7px; margin-top: 18px; }.discount-control label { color: #35576b; font-size: 12px; font-weight: 700; }.discount-input { display: flex; align-items: center; border: 1px solid #cfdee6; border-radius: 8px; overflow: hidden; }.discount-input span { padding-left: 11px; color: #6a8290; }.discount-input input { width: 100%; padding: 10px; border: 0; color: #183b56; font: inherit; outline: 0; }
+.cart-tax-detail { display: block; margin-top: 8px; color: #78909b; font-size: 11px; }
+.payment-control { display: grid; gap: 7px; margin-top: 18px; }.payment-control label { color: #35576b; font-size: 12px; font-weight: 700; }.payment-control select { width: 100%; padding: 10px; border: 1px solid #cfdee6; border-radius: 8px; background: white; color: #183b56; font: inherit; }
+.cart-summary { display: grid; gap: 10px; margin-top: 17px; padding-top: 17px; border-top: 1px solid #dfe9ed; }.cart-summary > div { display: flex; justify-content: space-between; color: #6a8290; font-size: 13px; }.cart-summary strong { color: #35576b; }.cart-summary .summary-total { margin-top: 4px; padding-top: 12px; border-top: 1px dashed #d9e5ea; color: #183b56; font-size: 16px; font-weight: 700; }.cart-summary .summary-total strong { color: #168e78; font-size: 18px; }
+.complete-bill-button { width: 100%; margin-top: 20px; padding: 13px; border: 0; border-radius: 8px; background: #0b2942; color: white; cursor: pointer; font: inherit; font-weight: 700; text-transform: uppercase; }.complete-bill-button:disabled { cursor: not-allowed; opacity: .5; }.bill-message { text-align: center; }
+.sale-success { display: grid; gap: 11px; margin-top: 14px; padding: 18px; border: 1px solid #bfe6dc; border-radius: 16px; background: #effbf8; color: #168e78; font-size: 13px; }
+.sale-success strong { color: #126f62; font-size: 1rem; }
+.sale-success-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.sale-success-actions .view-invoice-button { padding: 0.8rem 1.05rem; }
+@media (max-width: 1000px) { .pos-grid { grid-template-columns: 1fr; }.cart-panel { position: static; } }
+@media (max-width: 620px) { .billing-heading { align-items: flex-start; flex-direction: column; }.medicine-result { grid-template-columns: 1fr auto; }.medicine-result-meta { text-align: left; }.add-button { grid-column: 1 / -1; }.pos-search-panel, .cart-panel { padding: 17px; } }

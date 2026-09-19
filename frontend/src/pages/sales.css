@@ -1,0 +1,256 @@
+.sales-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sales-header-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.page-heading {
+  flex: 1;
+  min-width: 280px;
+}
+
+.sales-summary-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 1rem;
+  min-width: 260px;
+}
+
+.summary-card {
+  background: #f1fbff;
+  border: 1px solid #dbebf4;
+  border-radius: 18px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-card span {
+  color: #4f6a82;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.summary-card strong {
+  font-size: 1.7rem;
+  color: #0f324a;
+}
+
+.sales-toolbar {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(280px, 420px) minmax(180px, 220px);
+  gap: 1rem;
+  align-items: end;
+}
+
+.sales-search,
+.sales-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sales-search {
+  max-width: 100%;
+}
+
+.sales-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.sales-filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.sales-search input,
+.sales-filter-item input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d5e2ea;
+  border-radius: 14px;
+  background: #fff;
+  color: #123a52;
+  font: inherit;
+}
+
+.sales-search input:focus,
+.sales-filter-item input:focus {
+  outline: none;
+  border-color: #3fb5d5;
+  box-shadow: 0 0 0 4px rgba(63, 181, 213, 0.14);
+}
+
+.sales-summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: #425466;
+}
+
+.sales-table-card {
+  border-radius: 24px;
+  background: #ffffff;
+  border: 1px solid #d8e6ef;
+  box-shadow: 0 16px 40px rgba(15, 45, 65, 0.06);
+  overflow: hidden;
+}
+
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.sales-table th,
+.sales-table td {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid #e8eff6;
+  vertical-align: middle;
+}
+
+.sales-table th {
+  font-size: 0.85rem;
+  color: #6f7f91;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sales-table tbody tr:hover {
+  background: #f5fbff;
+}
+
+.sales-table td {
+  color: #2f475b;
+}
+
+.amount-cell {
+  font-weight: 700;
+  color: #0f324a;
+}
+
+.status-badge,
+.payment-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.status-badge.completed {
+  background: #e6f6f5;
+  color: #116c5c;
+}
+
+.status-badge.cancelled {
+  background: #fcebea;
+  color: #9f1d1d;
+}
+
+.payment-badge.cash {
+  background: #eef8ff;
+  color: #0f5a8f;
+}
+
+.payment-badge.upi {
+  background: #f5f8ea;
+  color: #5c6f22;
+}
+
+.payment-badge.card {
+  background: #f3f0ff;
+  color: #4d3d8d;
+}
+
+.payment-badge.credit {
+  background: #fff7e6;
+  color: #9a621d;
+}
+
+.sales-table-message,
+.sales-error {
+  padding: 1.5rem 1.75rem;
+  color: #507085;
+}
+
+.sales-error {
+  color: #b91c1c;
+}
+
+.view-invoice-button,
+.sales-pagination button {
+  border: none;
+  background: #177fb5;
+  color: #fff;
+  border-radius: 12px;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+
+.view-invoice-button:hover,
+.sales-pagination button:hover {
+  background: #115f84;
+  transform: translateY(-1px);
+}
+
+.sales-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 0.5rem;
+}
+
+.sales-pagination span {
+  color: #5f6f84;
+  font-size: 0.95rem;
+}
+
+.sales-pagination button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+  .sales-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .sales-summary-panel {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .sales-header-row,
+  .sales-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .sales-summary-panel {
+    grid-template-columns: 1fr;
+  }
+  .sales-toolbar {
+    align-items: stretch;
+  }
+}

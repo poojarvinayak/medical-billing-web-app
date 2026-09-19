@@ -1,0 +1,4 @@
+export interface Medicine { name: string; genericName?: string; barcode?: string; category?: string; manufacturer?: string; unit: string; mrp: string; sellingPrice: string; gstPercentage: number; stockQuantity: number; reorderLevel: number; isActive: boolean }
+export interface Customer { name: string; phone?: string; email?: string; address?: string; isActive: boolean }
+export interface Sale { invoiceNumber: string; customer?: string; items: string[]; subtotal: string; discountAmount: string; taxableAmount: string; taxAmount: string; grandTotal: string; paymentMethod: 'CASH' | 'UPI' | 'CARD' | 'CREDIT'; paymentStatus: 'PAID' | 'PARTIAL' | 'CREDIT' | 'REFUNDED'; status: 'COMPLETED' | 'CANCELLED'; createdBy: string }
+export interface SaleItem { sale: string; medicine: string; quantity: number; unitPrice: string; discountAmount: string; gstPercentage: number; taxableAmount: string; taxAmount: string; totalAmount: string }

@@ -1,0 +1,30 @@
+{
+  "name": "medical-store-billing-backend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "seed:admin": "tsx src/scripts/seedAdmin.ts"
+  },
+  "dependencies": {
+    "cors": "latest",
+    "cookie-parser": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "jsonwebtoken": "latest",
+    "mongoose": "latest",
+    "bcryptjs": "latest"
+  },
+  "devDependencies": {
+    "@types/cors": "latest",
+    "@types/cookie-parser": "latest",
+    "@types/express": "latest",
+    "@types/jsonwebtoken": "latest",
+    "@types/node": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}
