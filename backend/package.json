@@ -16,15 +16,15 @@
     "express": "latest",
     "jsonwebtoken": "latest",
     "mongoose": "latest",
-    "bcryptjs": "latest"
-  },
-  "devDependencies": {
+    "bcryptjs": "latest",
     "@types/cors": "latest",
     "@types/cookie-parser": "latest",
     "@types/express": "latest",
     "@types/jsonwebtoken": "latest",
     "@types/node": "latest",
-    "tsx": "latest",
     "typescript": "latest"
+  },
+  "devDependencies": {
+    "tsx": "latest"
   }
 }
