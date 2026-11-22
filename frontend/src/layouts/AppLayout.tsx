@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './app-layout.css'
@@ -35,7 +35,11 @@ export default function AppLayout() {
       <aside className={`sidebar${menuOpen ? ' sidebar-open' : ''}`}>
         <div className="brand"><BrandMark /><div><strong>Shri Nandi</strong><small>Medicals</small></div></div>
         <nav aria-label="Main navigation">
-          {navigationItems.map((item) => <NavLink key={item} to={routeFor(item)} className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>{item}</NavLink>)}
+          {navigationItems.map((item) => {
+            const destination = routeFor(item)
+            const isActive = location.pathname === destination || location.pathname.startsWith(`${destination}/`)
+            return <button key={item} type="button" className={`nav-item${isActive ? ' active' : ''}`} onClick={() => { navigate(destination); setMenuOpen(false) }}>{item}</button>
+          })}
         </nav>
       </aside>
       <div className="app-body">
