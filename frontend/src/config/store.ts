@@ -1,5 +1,5 @@
 export const storeConfig = {
-  name: 'ABC Medical Store',
+  name: 'Shri Nandi Medicals',
   address: '123 Main Road',
   phone: '9876543210',
   gstin: '',

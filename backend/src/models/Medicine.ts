@@ -13,6 +13,7 @@ export interface MedicineDocument {
   isActive: boolean
   createdAt: Date
   updatedAt: Date
+  purchasePrice?: Types.Decimal128 // Optional field for future use, not currently used in the MVP
 }
 
 const medicineSchema = new Schema<MedicineDocument>({

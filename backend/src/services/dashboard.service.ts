@@ -49,7 +49,7 @@ export const getDashboardSummary = async (): Promise<DashboardSummary> => {
   const recentSales = recentSalesRaw.map((sale) => ({
     id: sale._id.toString(),
     invoiceNumber: sale.invoiceNumber,
-    customerName: sale.customerId && typeof sale.customerId === 'object' && 'name' in sale.customerId ? sale.customerId.name : 'Walk-in',
+    customerName: sale.customerId && typeof sale.customerId === 'object' && 'name' in sale.customerId && typeof sale.customerId.name === 'string' ? sale.customerId.name : 'Walk-in',
     grandTotal: sale.grandTotal.toString(),
     status: sale.status,
     createdAt: sale.createdAt.toISOString(),

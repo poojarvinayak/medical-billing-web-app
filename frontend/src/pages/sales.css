@@ -233,6 +233,84 @@
   cursor: not-allowed;
 }
 
+.sales-row-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.order-details-button {
+  border: 1px solid #cbdde8;
+  background: #fff;
+  color: #2f5f78;
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.order-details-button:hover {
+  background: #eef7fb;
+}
+
+.sales-detail-row td {
+  padding: 0;
+  background: #f7fbfd;
+}
+
+.sales-order-details {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.sales-detail-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  color: #4f6879;
+  font-size: 0.85rem;
+}
+
+.sales-detail-heading strong {
+  color: #123a52;
+}
+
+.sales-detail-table {
+  overflow: hidden;
+  border: 1px solid #dce8ef;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.sales-detail-header,
+.sales-detail-line {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 100px 60px 70px 100px;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sales-detail-header {
+  padding: 0.65rem 0.85rem;
+  background: #edf5f9;
+  color: #6e8190;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.sales-detail-line {
+  padding: 0.75rem 0.85rem;
+  border-top: 1px solid #edf2f5;
+  color: #526d7d;
+  font-size: 0.85rem;
+}
+
+.sales-detail-line strong {
+  color: #173d55;
+}
+
 @media (max-width: 900px) {
   .sales-toolbar {
     grid-template-columns: 1fr;
@@ -253,4 +331,15 @@
   .sales-toolbar {
     align-items: stretch;
   }
+  .sales-header-row { flex-direction: column; }
+  .sales-summary-panel { width: 100%; min-width: 0; }
+  .sales-toolbar { grid-template-columns: 1fr; }
+  .sales-filters { grid-template-columns: 1fr; }
+  .sales-summary { justify-content: flex-start; }
+  .sales-table-card { overflow-x: auto; }
+  .sales-row-actions { justify-content: flex-start; }
+  .sales-detail-header,
+  .sales-detail-line { grid-template-columns: minmax(140px, 1fr) 74px 44px 54px 82px; min-width: 430px; }
+  .sales-detail-table { overflow-x: auto; }
+  .sales-pagination { justify-content: space-between; }
 }

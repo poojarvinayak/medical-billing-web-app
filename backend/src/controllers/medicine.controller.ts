@@ -16,6 +16,11 @@ export const createMedicine = async (request: Request, response: Response): Prom
   response.status(201).json({ success: true, message: 'Medicine created successfully', data })
 }
 
+export const importMedicines = async (request: Request, response: Response): Promise<void> => {
+  const data = await medicineService.importMedicines(request.body?.rows as medicineService.BulkMedicineInput[])
+  response.json({ success: true, message: `${data.imported} product(s) imported`, data })
+}
+
 export const updateMedicine = async (request: Request, response: Response): Promise<void> => {
   const data = await medicineService.updateMedicine(String(request.params.id ?? ''), request.body as medicineService.MedicineUpdateInput)
   response.json({ success: true, message: 'Medicine updated successfully', data })

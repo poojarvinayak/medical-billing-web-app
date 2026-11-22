@@ -19,6 +19,7 @@ export default function Sales() {
   const [total, setTotal] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
   const [limit] = useState(10)
+  const [expandedSaleId, setExpandedSaleId] = useState<string | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -108,20 +109,42 @@ export default function Sales() {
                 <th aria-label="Actions" />
               </tr>
             </thead>
-            <tbody>
-              {sales.map((sale) => (
-                <tr key={sale.id}>
-                  <td>{sale.invoiceNumber}</td>
-                  <td>{date(sale.createdAt)}</td>
-                  <td>{sale.customerName}{sale.customerPhone ? ` · ${sale.customerPhone}` : ''}</td>
-                  <td><span className={getPaymentClass(sale.paymentMethod)}>{sale.paymentMethod}</span></td>
-                  <td><span className={getStatusClass(sale.status)}>{sale.status}</span></td>
-                  <td className="amount-cell">{money(sale.discountAmount)}</td>
-                  <td className="amount-cell">{money(sale.grandTotal)}</td>
-                  <td><button className="view-invoice-button" type="button" onClick={() => navigate(`/invoices/${sale.id}`)}>Reprint</button></td>
-                </tr>
-              ))}
-            </tbody>
+            {
+              sales.map((sale) => (
+                <tbody key={sale.id}>
+                  <tr>
+                    <td>{sale.invoiceNumber}</td>
+                    <td>{date(sale.createdAt)}</td>
+                    <td>{sale.customerName}{sale.customerPhone ? ` · ${sale.customerPhone}` : ''}</td>
+                    <td><span className={getPaymentClass(sale.paymentMethod)}>{sale.paymentMethod}</span></td>
+                    <td><span className={getStatusClass(sale.status)}>{sale.status}</span></td>
+                    <td className="amount-cell">{money(sale.discountAmount)}</td>
+                    <td className="amount-cell">{money(sale.grandTotal)}</td>
+                    <td>
+                      <div className="sales-row-actions">
+                        <button className="order-details-button" type="button" onClick={() => setExpandedSaleId((current) => current === sale.id ? null : sale.id)}>{expandedSaleId === sale.id ? 'Hide details' : 'View details'}</button>
+                        <button className="view-invoice-button" type="button" onClick={() => navigate(`/invoices/${sale.id}`)}>Invoice</button>
+                      </div>
+                    </td>
+                  </tr>
+                  {expandedSaleId === sale.id && (
+                    <tr className="sales-detail-row">
+                      <td colSpan={8}>
+                        <div className="sales-order-details">
+                          <div className="sales-detail-heading"><strong>Order items</strong><span>{sale.items.length} item{sale.items.length === 1 ? '' : 's'}</span></div>
+                          <div className="sales-detail-table">
+                            <div className="sales-detail-header"><span>Product</span><span>Batch</span><span>Qty</span><span>GST</span><span>Amount</span></div>
+                            {sale.items.map((item, index) => (
+                              <div className="sales-detail-line" key={`${sale.id}-${item.medicineName}-${index}`}><strong>{item.medicineName}</strong><span>{item.batchNumber}</span><span>{item.quantity}</span><span>{item.gstPercentage}%</span><strong>{money(item.lineTotal)}</strong></div>
+                            ))}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              ))
+            }
           </table>
         )}
       </div>

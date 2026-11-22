@@ -1,4 +1,4 @@
-import mongoose, { isValidObjectId, Types, type FilterQuery, type HydratedDocument } from 'mongoose'
+import mongoose, { isValidObjectId, Types, type HydratedDocument } from 'mongoose'
 import { Customer } from '../models/Customer.js'
 import { Medicine } from '../models/Medicine.js'
 import { Payment, type PaymentMethod } from '../models/Payment.js'
@@ -85,7 +85,8 @@ export const createSale = async (input: CreateSaleInput, userId: string) => {
   } finally { await session.endSession() }
 }
 export interface SalesHistoryRequest { page?: number; limit?: number; search?: string; startDate?: string; endDate?: string }
-export interface SalesHistoryItem { id: string; invoiceNumber: string; createdAt: string; customerName: string; customerPhone: string | null; paymentMethod: PaymentMethod; paymentStatus: SaleDocument['paymentStatus']; status: SaleDocument['status']; discountAmount: string; grandTotal: string; }
+export interface SalesHistoryItemLine { medicineName: string; batchNumber: string; quantity: number; unitPrice: string; gstPercentage: number; lineTotal: string }
+export interface SalesHistoryItem { id: string; invoiceNumber: string; createdAt: string; customerName: string; customerPhone: string | null; paymentMethod: PaymentMethod; paymentStatus: SaleDocument['paymentStatus']; status: SaleDocument['status']; discountAmount: string; subtotal: string; grandTotal: string; items: SalesHistoryItemLine[] }
 export interface SalesHistoryPagination { page: number; limit: number; total: number; totalPages: number }
 export interface SalesHistoryResponse { sales: SalesHistoryItem[]; pagination: SalesHistoryPagination }
 
@@ -100,7 +101,10 @@ const parseDate = (value: string | undefined): Date | null => {
 export const getSalesHistory = async ({ page = 1, limit = 20, search, startDate, endDate }: SalesHistoryRequest): Promise<SalesHistoryResponse> => {
   const normalizedPage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1
   const normalizedLimit = Number.isFinite(limit) && limit > 0 ? Math.min(Math.max(Math.floor(limit), 1), 100) : 20
-  const query: FilterQuery<SaleDocument> = {}
+  const query: {
+    $or?: Array<Record<string, unknown>>
+    createdAt?: { $gte?: Date; $lte?: Date }
+  } = {}
 
   if (search?.trim()) {
     const term = search.trim()
@@ -136,6 +140,16 @@ export const getSalesHistory = async ({ page = 1, limit = 20, search, startDate,
     .populate({ path: 'customerId', select: 'name phone' })
     .lean()
 
+  const saleIds = sales.map((sale) => sale._id)
+  const saleItems = await SaleItem.find({ saleId: { $in: saleIds } }).sort({ createdAt: 1 }).lean()
+  const itemsBySale = new Map<string, SalesHistoryItemLine[]>()
+  for (const item of saleItems) {
+    const saleId = item.saleId.toString()
+    const lines = itemsBySale.get(saleId) ?? []
+    lines.push({ medicineName: item.medicineName, batchNumber: item.batchNumber, quantity: item.quantity, unitPrice: item.unitPrice.toString(), gstPercentage: item.gstPercentage, lineTotal: item.lineTotal.toString() })
+    itemsBySale.set(saleId, lines)
+  }
+
   return {
     sales: sales.map((sale) => ({
       id: sale._id.toString(),
@@ -147,7 +161,9 @@ export const getSalesHistory = async ({ page = 1, limit = 20, search, startDate,
       paymentStatus: sale.paymentStatus,
       status: sale.status,
       discountAmount: sale.discountAmount.toString(),
+      subtotal: sale.subtotal.toString(),
       grandTotal: sale.grandTotal.toString(),
+      items: itemsBySale.get(sale._id.toString()) ?? [],
     })),
     pagination: {
       page: normalizedPage,

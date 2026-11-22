@@ -100,12 +100,82 @@ export const getMedicineById = async (id: string) => {
 
 export const createMedicine = async (input: MedicineInput) => {
   const data = validateInput(input)
-  await ensureBarcodeAvailable(data.barcode as string | undefined, data.batchNumber)
+  await ensureBarcodeAvailable(data.barcode as string | undefined, String(data.batchNumber))
   try { return serialize(await Medicine.create(data)) }
   catch (error: unknown) {
     if (error instanceof Error && 'code' in error && (error as { code?: number }).code === 11000) throw new MedicineServiceError('A medicine with this barcode and batch number already exists.', 409)
     throw error
   }
+}
+
+export interface BulkMedicineInput { row: number; id?: string; medicine: MedicineInput }
+
+export interface BulkMedicineFailure {
+  row: number
+  id?: string
+  name?: string
+  genericName?: string
+  barcode?: string
+  batchNumber?: string
+  expiryDate?: string
+  mrp?: string | number
+  sellingPrice?: string | number
+  gstPercentage?: number
+  stockQuantity?: number
+  error: string
+}
+
+export const importMedicines = async (rows: BulkMedicineInput[]): Promise<{ imported: number; updated: number; failed: BulkMedicineFailure[] }> => {
+  if (!Array.isArray(rows) || rows.length === 0) throw new MedicineServiceError('No product rows supplied.')
+  if (rows.length > 500) throw new MedicineServiceError('A maximum of 500 products can be imported at once.')
+
+  const valid: Record<string, unknown>[] = []
+  const failed: BulkMedicineFailure[] = []
+  let imported = 0
+  let updated = 0
+  const inFileKeys = new Set<string>()
+
+  for (const item of rows) {
+    try {
+      const data = validateInput(item.medicine)
+      const barcode = data.barcode as string | undefined
+      const batchNumber = String(data.batchNumber)
+      const productId = item.id?.trim()
+
+      if (productId) {
+        await updateMedicine(productId, item.medicine)
+        updated += 1
+        continue
+      }
+
+      const key = `${barcode ?? ''}|${batchNumber}`
+      if (barcode && inFileKeys.has(key)) throw new MedicineServiceError('A medicine with this barcode and batch number appears more than once in the file.', 409)
+      await ensureBarcodeAvailable(barcode, batchNumber)
+      if (barcode) inFileKeys.add(key)
+      valid.push(data)
+    } catch (error: unknown) {
+      failed.push({
+        row: item.row,
+        id: item.id,
+        name: item.medicine?.name,
+        genericName: item.medicine?.genericName,
+        barcode: item.medicine?.barcode,
+        batchNumber: item.medicine?.batchNumber,
+        expiryDate: item.medicine?.expiryDate?.toString(),
+        mrp: item.medicine?.mrp,
+        sellingPrice: item.medicine?.sellingPrice,
+        gstPercentage: item.medicine?.gstPercentage,
+        stockQuantity: item.medicine?.stockQuantity,
+        error: error instanceof Error ? error.message : 'Invalid product row.',
+      })
+    }
+  }
+
+  if (valid.length > 0) {
+    await Medicine.insertMany(valid)
+    imported = valid.length
+  }
+  return { imported, updated, failed }
 }
 
 export const updateMedicine = async (id: string, input: MedicineUpdateInput) => {
@@ -114,7 +184,7 @@ export const updateMedicine = async (id: string, input: MedicineUpdateInput) => 
   if (!existing) throw new MedicineServiceError('Medicine not found.', 404)
   const merged: MedicineInput = { name: input.name ?? existing.name, genericName: input.genericName ?? existing.genericName, barcode: input.barcode ?? existing.barcode, batchNumber: input.batchNumber ?? existing.batchNumber, expiryDate: input.expiryDate ?? existing.expiryDate, mrp: input.mrp ?? existing.mrp.toString(), sellingPrice: input.sellingPrice ?? existing.sellingPrice.toString(), gstPercentage: input.gstPercentage ?? existing.gstPercentage, stockQuantity: input.stockQuantity ?? existing.stockQuantity }
   const data = validateInput(merged)
-  await ensureBarcodeAvailable(data.barcode as string | undefined, data.batchNumber, id)
+  await ensureBarcodeAvailable(data.barcode as string | undefined, String(data.batchNumber), id)
   try { Object.assign(existing, data); return serialize(await existing.save()) }
   catch (error: unknown) {
     if (error instanceof Error && 'code' in error && (error as { code?: number }).code === 11000) throw new MedicineServiceError('A medicine with this barcode already exists.', 409)
