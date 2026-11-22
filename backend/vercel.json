@@ -1,12 +1,4 @@
 {
   "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "functions": {
-    "src/vercel.ts": {
-      "includeFiles": "dist/**"
-    }
-  },
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/src/vercel.ts" }
-  ]
+  "installCommand": "npm install"
 }
