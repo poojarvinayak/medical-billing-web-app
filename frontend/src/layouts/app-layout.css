@@ -2,16 +2,17 @@
 
 :root { font-family: 'DM Sans', sans-serif; color: #183b56; background: #f5f8fb; font-synthesis: none; }
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; }
+body { margin: 0; min-width: 320px; overflow-x: hidden; }
+html, body, #root { width: 100%; max-width: 100%; }
 .app-shell { display: flex; min-height: 100vh; background: #eef4f7; }
 .sidebar { position: sticky; top: 0; width: 250px; height: 100vh; overflow-y: auto; padding: 28px 18px; background: #09283d; color: #dcecf7; border-right: 1px solid #153f55; }
 .brand { display: flex; align-items: center; gap: 12px; padding: 0 12px 36px; color: white; }
 .brand-mark { display: grid; flex: 0 0 auto; place-items: center; width: 46px; height: 46px; overflow: hidden; border: 1px solid #58cbb6; border-radius: 12px; background: #0e5f58; box-shadow: 0 7px 18px #071d2b33; }.brand-mark svg { width: 42px; height: 42px; }.brand-mark-compact { width: 42px; height: 42px; border-radius: 10px; }.brand-mark-compact svg { width: 38px; height: 38px; }
 .brand strong, .brand small { display: block; }.brand strong { font-family: 'Plus Jakarta Sans'; font-size: 16px; }.brand small { margin-top: 2px; color: #8fb4c9; font-size: 11px; }
 nav { display: grid; gap: 7px; }.nav-item { width: 100%; min-height: 42px; height: 42px; border: 0; background: transparent; text-align: left; cursor: pointer; font-family: inherit; }.nav-item { padding: 12px 14px; border-radius: 9px; color: #9fc0d2; text-decoration: none; font-size: 14px; font-weight: 500; }.nav-item:hover, .nav-item.active { color: white; background: #174762; }.nav-item.active { box-shadow: inset 3px 0 #34c7ad; }
-.app-body { flex: 1; min-width: 0; }.header-brand { display: flex; align-items: center; gap: 12px; }.header { position: sticky; top: 0; z-index: 30; display: flex; justify-content: space-between; align-items: center; padding: 28px 42px; background: white; border-bottom: 1px solid #e7eef3; }.eyebrow { margin: 0 0 5px; color: #27a88e; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }.header h1 { margin: 0; color: #12344d; font-family: 'Plus Jakarta Sans'; font-size: 22px; }.header-account { display: flex; align-items: center; gap: 14px; }.account-details { display: grid; gap: 2px; text-align: right; }.account-details strong { color: #183b56; font-size: 13px; }.account-details small { color: #27a88e; font-size: 11px; font-weight: 700; }.logout-button { padding: 9px 13px; border: 1px solid #d9e5ea; border-radius: 8px; background: white; color: #456576; cursor: pointer; font: inherit; font-size: 12px; font-weight: 600; }.logout-button:hover { border-color: #24b69b; color: #168e78; }.main-content { padding: 42px; }
+.app-body { flex: 1; width: 100%; max-width: 100%; min-width: 0; overflow-x: hidden; }.header-brand { display: flex; align-items: center; gap: 12px; }.header { position: sticky; top: 0; z-index: 30; display: flex; justify-content: space-between; align-items: center; padding: 28px 42px; background: white; border-bottom: 1px solid #e7eef3; }.eyebrow { margin: 0 0 5px; color: #27a88e; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }.header h1 { margin: 0; color: #12344d; font-family: 'Plus Jakarta Sans'; font-size: 22px; }.header-account { display: flex; align-items: center; gap: 14px; }.account-details { display: grid; gap: 2px; text-align: right; }.account-details strong { color: #183b56; font-size: 13px; }.account-details small { color: #27a88e; font-size: 11px; font-weight: 700; }.logout-button { padding: 9px 13px; border: 1px solid #d9e5ea; border-radius: 8px; background: white; color: #456576; cursor: pointer; font: inherit; font-size: 12px; font-weight: 600; }.logout-button:hover { border-color: #24b69b; color: #168e78; }.main-content { padding: 42px; }
 .placeholder-card { max-width: 720px; padding: 42px; border: 1px solid #e2ebf0; border-radius: 16px; background: white; box-shadow: 0 8px 24px #173b5608; }.placeholder-card h2 { margin: 0 0 10px; font-family: 'Plus Jakarta Sans'; color: #12344d; font-size: 28px; }.placeholder-card p { margin: 0; color: #6a8290; line-height: 1.6; }.setup-badge { display: inline-block; margin-bottom: 20px; padding: 7px 10px; border-radius: 6px; background: #e8f8f4; color: #178e78; font-size: 12px; font-weight: 700; }
-@media (max-width: 760px) {
+@media (max-width: 980px) {
   .app-shell { display: block; }
   .sidebar { position: fixed; left: 0; z-index: 50; width: min(280px, 84vw); height: 100dvh; transform: translateX(-100%); transition: transform 180ms ease; box-shadow: 18px 0 40px #071d2b35; }
   .sidebar.sidebar-open { transform: translateX(0); }
@@ -32,6 +33,9 @@ nav { display: grid; gap: 7px; }.nav-item { width: 100%; min-height: 42px; heigh
   .account-details { display: none; }
   .header-account { gap: 0; }
   .logout-button { min-width: 38px; height: 38px; padding: 0 9px; border-color: #4b7288; background: #123f5b; color: #eaf4f7; }
-  .main-content { width: 100%; padding: 20px 16px 32px; }
+  .main-content { width: 100%; max-width: 100%; min-width: 0; overflow-x: hidden; padding: 20px 16px 32px; }
+  .main-content > section { width: 100%; max-width: 100%; min-width: 0; }
+  .main-content table { max-width: none; }
+  .page-heading-actions { width: 100%; justify-content: flex-start; }
 }
-@media (min-width: 761px) { .mobile-menu-button, .sidebar-backdrop { display: none; } }
+@media (min-width: 981px) { .mobile-menu-button, .sidebar-backdrop { display: none; } }
