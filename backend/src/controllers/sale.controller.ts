@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express'
+import type { AuthUser } from '../types/auth.js'
 import { createSale, getSalesHistory, type CreateSaleInput, type SalesHistoryRequest } from '../services/sale.service.js'
 
 export const getSalesHistoryController = async (request: Request, response: Response): Promise<void> => {
@@ -14,6 +15,6 @@ export const getSalesHistoryController = async (request: Request, response: Resp
 }
 
 export const createSaleController = async (request: Request, response: Response): Promise<void> => {
-  const data = await createSale(request.body as CreateSaleInput, request.user?.id ?? '')
+  const data = await createSale(request.body as CreateSaleInput, (request as Request & { user?: AuthUser }).user?.id ?? '')
   response.status(201).json({ success: true, message: 'Sale created successfully', data })
 }

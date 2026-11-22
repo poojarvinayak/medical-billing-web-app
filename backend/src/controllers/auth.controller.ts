@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express'
+import type { AuthUser } from '../types/auth.js'
 import { User } from '../models/User.js'
 import { authenticateCredentials, clearAuthCookie, issueAuthCookie, safeUser } from '../services/auth.service.js'
 import type { LoginRequest } from '../types/auth.js'
@@ -27,11 +28,12 @@ export const logout = (_request: Request, response: Response): void => {
 }
 
 export const me = (request: Request, response: Response): void => {
-  response.json({ success: true, user: request.user })
+  response.json({ success: true, user: (request as Request & { user?: AuthUser }).user })
 }
 
 export const protectedTest = (request: Request, response: Response): void => {
-  response.json({ success: true, message: 'You have access to protected API', user: { id: request.user?.id, role: request.user?.role } })
+  const authenticatedUser = (request as Request & { user?: AuthUser }).user
+  response.json({ success: true, message: 'You have access to protected API', user: { id: authenticatedUser?.id, role: authenticatedUser?.role } })
 }
 
 export const ensureUserModelLoaded = (): typeof User => User
