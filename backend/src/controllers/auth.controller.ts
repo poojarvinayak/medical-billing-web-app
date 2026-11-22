@@ -22,6 +22,28 @@ export const login = async (request: Request, response: Response): Promise<void>
   response.json({ success: true, user: safeUser(user) })
 }
 
+export const setupAdmin = async (request: Request, response: Response): Promise<void> => {
+  const setupSecret = request.header('x-admin-setup-secret')
+  if (!setupSecret || setupSecret !== process.env.ADMIN_SETUP_SECRET) {
+    response.status(403).json({ success: false, message: 'Setup secret is invalid' })
+    return
+  }
+  const name = process.env.ADMIN_NAME?.trim()
+  const email = process.env.ADMIN_EMAIL?.toLowerCase().trim()
+  const password = process.env.ADMIN_PASSWORD
+  if (!name || !email || !password || password.length < 8) {
+    response.status(400).json({ success: false, message: 'Admin setup environment variables are incomplete' })
+    return
+  }
+  const existing = await User.findOne({ email })
+  if (existing) {
+    response.json({ success: true, message: 'Admin user already exists', data: { email } })
+    return
+  }
+  await User.create({ name, email, password, role: 'ADMIN', isActive: true })
+  response.status(201).json({ success: true, message: 'Admin user created', data: { email } })
+}
+
 export const logout = (_request: Request, response: Response): void => {
   clearAuthCookie(response)
   response.json({ success: true, message: 'Logged out successfully' })
