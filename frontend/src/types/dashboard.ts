@@ -7,6 +7,13 @@ export interface RecentDashboardSale {
   createdAt: string
 }
 
+export interface ReminderCustomer {
+  id: string
+  name: string
+  phone: string
+  reminderDate: string
+}
+
 export interface DashboardSummary {
   totalSalesToday: number
   totalRevenueToday: string
@@ -15,4 +22,5 @@ export interface DashboardSummary {
   lowStockMedicines: number
   expiringSoonMedicines: number
   recentSales: RecentDashboardSale[]
+  reminderCustomers: ReminderCustomer[]
 }

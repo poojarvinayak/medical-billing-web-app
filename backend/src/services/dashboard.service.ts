@@ -11,6 +11,13 @@ export interface RecentSaleSummary {
   createdAt: string
 }
 
+export interface ReminderCustomerSummary {
+  id: string
+  name: string
+  phone: string
+  reminderDate: string
+}
+
 export interface DashboardSummary {
   totalSalesToday: number
   totalRevenueToday: string
@@ -19,6 +26,7 @@ export interface DashboardSummary {
   lowStockMedicines: number
   expiringSoonMedicines: number
   recentSales: RecentSaleSummary[]
+  reminderCustomers: ReminderCustomerSummary[]
 }
 
 export const getDashboardSummary = async (): Promise<DashboardSummary> => {
@@ -30,8 +38,13 @@ export const getDashboardSummary = async (): Promise<DashboardSummary> => {
   tomorrow.setDate(todayStart.getDate() + 1)
 
   const expiringSoonThreshold = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
+  const reminderStart = new Date(now)
+  reminderStart.setHours(0, 0, 0, 0)
+  reminderStart.setDate(reminderStart.getDate() - 30)
+  const reminderEnd = new Date(reminderStart)
+  reminderEnd.setDate(reminderStart.getDate() + 7)
 
-  const [totalCustomers, totalMedicines, lowStockMedicines, expiringSoonMedicines, salesTodayCount, salesTodayRevenueResult, recentSalesRaw] = await Promise.all([
+  const [totalCustomers, totalMedicines, lowStockMedicines, expiringSoonMedicines, salesTodayCount, salesTodayRevenueResult, recentSalesRaw, reminderCustomersRaw] = await Promise.all([
     Customer.countDocuments({ isActive: true }),
     Medicine.countDocuments({ isActive: true }),
     Medicine.countDocuments({ isActive: true, stockQuantity: { $gt: 0, $lte: 10 } }),
@@ -42,6 +55,7 @@ export const getDashboardSummary = async (): Promise<DashboardSummary> => {
       { $group: { _id: null, total: { $sum: '$grandTotal' } } },
     ]),
     Sale.find({ status: 'COMPLETED' }).sort({ createdAt: -1 }).limit(5).populate({ path: 'customerId', select: 'name' }).exec(),
+    Customer.find({ isActive: true, reminderDate: { $gte: reminderStart, $lte: reminderEnd } }).sort({ reminderDate: 1 }).limit(8).select('_id name phone reminderDate').lean(),
   ])
 
   const totalRevenueToday = String(salesTodayRevenueResult[0]?.total ?? '0')
@@ -63,5 +77,6 @@ export const getDashboardSummary = async (): Promise<DashboardSummary> => {
     lowStockMedicines,
     expiringSoonMedicines,
     recentSales,
+    reminderCustomers: reminderCustomersRaw.map((customer) => ({ id: customer._id.toString(), name: customer.name, phone: customer.phone, reminderDate: customer.reminderDate?.toISOString() ?? '' })),
   }
 }

@@ -7,6 +7,17 @@ import './dashboard.css'
 
 const formatCurrency = (value: string): string => `₹${Number(value).toFixed(2)}`
 const formatDate = (value: string): string => new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short' }).format(new Date(value))
+const formatReminderDate = (value: string): string => {
+  const reminder = new Date(value)
+  const today = new Date()
+  reminder.setHours(0, 0, 0, 0)
+  today.setHours(0, 0, 0, 0)
+  const days = Math.round((reminder.getTime() - today.getTime()) / 86400000)
+  if (days === 0) return 'Today'
+  if (days === 1) return 'Tomorrow'
+  if (days > 1) return `In ${days} days`
+  return `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'} overdue`
+}
 
 const polarToCartesian = (cx: number, cy: number, radius: number, angleInDegrees: number) => {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0
@@ -68,7 +79,7 @@ export default function DashboardPage() {
   const salesTotal = summary ? summary.recentSales.reduce((sum, sale) => sum + Number(sale.grandTotal), 0) : 0
 
   return (
-    <section className="dashboard-page">
+    <section className="dashboard-page dashboard-enter">
       <div className="page-heading">
         <div>
           <p className="eyebrow">Business overview</p>
@@ -175,6 +186,31 @@ export default function DashboardPage() {
               </table>
             </article>
           </div>
+
+          <section className="reminder-section">
+            <div className="section-header">
+              <div>
+                <h3>Customer reminders</h3>
+                <p>Follow-up and refill reminders due in the next 7 days.</p>
+              </div>
+            </div>
+            {summary.reminderCustomers.length === 0 ? (
+              <div className="reminder-empty">No customer reminders due this week.</div>
+            ) : (
+              <div className="reminder-list">
+                {summary.reminderCustomers.map((customer) => (
+                  <button key={customer.id} type="button" className="reminder-item" onClick={() => navigate(`/customers/${customer.id}/edit`)}>
+                    <div className="reminder-avatar" aria-hidden="true">{customer.name.charAt(0).toUpperCase()}</div>
+                    <div className="reminder-details">
+                      <strong>{customer.name}</strong>
+                      <span>{customer.phone}</span>
+                    </div>
+                    <span className="reminder-date">{formatReminderDate(customer.reminderDate)}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </section>
 
           <section className="dashboard-section">
             <div className="section-header">
