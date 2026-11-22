@@ -38,7 +38,7 @@ export default function AppLayout() {
           {navigationItems.map((item) => {
             const destination = routeFor(item)
             const isActive = location.pathname === destination || location.pathname.startsWith(`${destination}/`)
-            return <button key={item} type="button" className={`nav-item${isActive ? ' active' : ''}`} onClick={() => { navigate(destination); setMenuOpen(false) }}>{item}</button>
+            return <button key={item} type="button" className={`nav-item${isActive ? ' active' : ''}`} onPointerDown={(event) => { if (event.button === 0) { navigate(destination); setMenuOpen(false) } }} onClick={() => { navigate(destination); setMenuOpen(false) }}>{item}</button>
           })}
         </nav>
       </aside>
