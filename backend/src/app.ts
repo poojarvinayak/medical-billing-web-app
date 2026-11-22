@@ -1,4 +1,5 @@
 import cors from 'cors'
+import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import healthRouter from './routes/health.routes.js'
@@ -9,6 +10,7 @@ import billingRouter from './routes/billing.routes.js'
 import saleRouter from './routes/sale.routes.js'
 import dashboardRouter from './routes/dashboard.routes.js'
 import { errorHandler } from './middleware/errorHandler.js'
+import { env } from './config/env.js'
 
 export const createApp = (corsOrigin: string) => {
   const app = express()
@@ -18,6 +20,14 @@ export const createApp = (corsOrigin: string) => {
   app.use(cors(corsOptions))
   app.use(express.json())
   app.use(cookieParser())
+  app.use(async (_request, _response, next) => {
+    try {
+      if (mongoose.connection.readyState !== 1) await mongoose.connect(env.mongodbUri)
+      next()
+    } catch (error) {
+      next(error)
+    }
+  })
   app.use('/api/health', healthRouter)
   app.use('/api/auth', authRouter)
   app.use('/api/medicines', medicineRouter)
@@ -28,3 +38,5 @@ export const createApp = (corsOrigin: string) => {
   app.use(errorHandler)
   return app
 }
+
+export default createApp(env.corsOrigin)
