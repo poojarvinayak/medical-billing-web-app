@@ -36,9 +36,6 @@ export const authenticateCredentials = async (email: string, password: string): 
   const normalizedEmail = email.toLowerCase().trim()
   const user = await User.findOne({ email: normalizedEmail }).select('+password') as UserHydratedDocument | null
   const passwordMatches = user ? await bcrypt.compare(password, user.password) : false
-  // #region agent log
-  fetch('http://127.0.0.1:7299/ingest/4add0374-c4a5-474b-ac4f-8335f0436b39',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'40ba18'},body:JSON.stringify({sessionId:'40ba18',runId:'pre-fix',hypothesisId:'H2-H3',location:'auth.service.ts:authenticateCredentials',message:'db credential lookup',data:{normalizedEmail,userFound:Boolean(user),passwordMatches,isActive:user?.isActive??null},timestamp:Date.now()})}).catch(()=>{});
-  // #endregion
   if (!user || !passwordMatches) return null
   return user
 }
